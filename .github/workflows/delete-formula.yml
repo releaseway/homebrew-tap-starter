@@ -1,0 +1,23 @@
+name: delete formula
+on:
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: Formula name to delete.
+        required: true
+        type: string
+      dry-run:
+        description: Show the deletion without committing.
+        required: false
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  delete:
+    permissions:
+      contents: write
+    uses: releaseway/homebrew-actions/.github/workflows/tap-delete.yml@c035d14050bca1e2028a6368823797d36c9cdbc5 # v0.1.0
+    with:
+      formula: ${{ inputs.formula }}
+      dry-run: ${{ inputs.dry-run }}

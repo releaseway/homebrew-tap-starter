@@ -1,0 +1,10 @@
+name: test
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tap-check:
+    uses: releaseway/homebrew-actions/.github/workflows/tap-check.yml@c035d14050bca1e2028a6368823797d36c9cdbc5 # v0.1.0
