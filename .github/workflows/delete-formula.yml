@@ -17,7 +17,7 @@ jobs:
   delete:
     permissions:
       contents: write
-    uses: releaseway/homebrew-actions/.github/workflows/tap-delete.yml@c035d14050bca1e2028a6368823797d36c9cdbc5 # v0.1.0
+    uses: releaseway/homebrew-actions/.github/workflows/tap-delete.yml@4bbfa6aafc92a6cb8e823a51d54a6573237e0a76 # v0.2.0
     with:
       formula: ${{ inputs.formula }}
       dry-run: ${{ inputs.dry-run }}
