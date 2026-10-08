@@ -10,7 +10,7 @@ Dependabot updates. Package registration and updates happen from each product
 repository; you do not edit the tap to add a package.
 
 The included workflows and product examples are pinned to the full
-`releaseway/homebrew-actions v0.2.0` commit.
+`releaseway/homebrew-actions v0.3.4` commit.
 
 ## Check the new tap
 
@@ -46,7 +46,7 @@ jobs:
   homebrew:
     permissions:
       contents: read
-    uses: releaseway/homebrew-actions/.github/workflows/check.yml@4bbfa6aafc92a6cb8e823a51d54a6573237e0a76 # v0.2.0
+    uses: releaseway/homebrew-actions/.github/workflows/check.yml@b947bedda8122de8b5c13b41416c3651a7841ae1 # v0.3.4
     with:
       tap-repository: OWNER/homebrew-tap
 ```
@@ -60,7 +60,7 @@ jobs:
     needs: release
     permissions:
       contents: read
-    uses: releaseway/homebrew-actions/.github/workflows/publish.yml@4bbfa6aafc92a6cb8e823a51d54a6573237e0a76 # v0.2.0
+    uses: releaseway/homebrew-actions/.github/workflows/publish.yml@b947bedda8122de8b5c13b41416c3651a7841ae1 # v0.3.4
     with:
       tap-repository: OWNER/homebrew-tap
       commit: ${{ needs.release.outputs.commit }}
