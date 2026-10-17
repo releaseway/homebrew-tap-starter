@@ -10,7 +10,7 @@ Dependabot updates. Package registration and updates happen from each product
 repository; you do not edit the tap to add a package.
 
 The included workflows and product examples are pinned to the full
-`releaseway/homebrew-actions v0.3.5` commit.
+`releaseway/homebrew-actions v0.4.0` commit.
 
 ## Check the new tap
 
@@ -24,8 +24,10 @@ In your product repository, add `.github/homebrew/formula.yml`:
 
 ```yaml
 name: example
-desc: Example command-line tool
+desc: Demonstrate command-line packaging
 license: MIT
+command_aliases:
+  ex: example
 dependencies:
   build:
     - go
@@ -33,7 +35,14 @@ install: |
   system "go", "build", *std_go_args, "./cmd/example"
 test: |
   system bin/"example", "--version"
+  system bin/"ex", "--version"
 ```
+
+`command_aliases` requires homebrew-actions v0.4.0 or newer. It maps an extra
+command name to an executable installed in `bin`; here both `example` and `ex`
+run the same program. These are executable names, separate from Formula names
+used by `brew install`. Remove any manual symlink for the same name when adopting
+this field; an existing destination is rejected. Omit the field if no alias is needed.
 
 Adapt installation, dependencies and tests to your product. See
 [Homebrew automation](https://github.com/releaseway/homebrew-actions) for prebuilt
@@ -46,7 +55,7 @@ jobs:
   homebrew:
     permissions:
       contents: read
-    uses: releaseway/homebrew-actions/.github/workflows/check.yml@5e6570fec2e5d16ad61868877da3a175fac99479 # v0.3.5
+    uses: releaseway/homebrew-actions/.github/workflows/check.yml@5ff7e261e32542dde8902ef16483405c2bf4ca12 # v0.4.0
     with:
       tap-repository: OWNER/homebrew-tap
 ```
@@ -60,7 +69,7 @@ jobs:
     needs: release
     permissions:
       contents: read
-    uses: releaseway/homebrew-actions/.github/workflows/publish.yml@5e6570fec2e5d16ad61868877da3a175fac99479 # v0.3.5
+    uses: releaseway/homebrew-actions/.github/workflows/publish.yml@5ff7e261e32542dde8902ef16483405c2bf4ca12 # v0.4.0
     with:
       tap-repository: OWNER/homebrew-tap
       commit: ${{ needs.release.outputs.commit }}
@@ -85,7 +94,7 @@ The setup helper can configure that pair without printing the private key:
 
 ```sh
 git clone https://github.com/releaseway/homebrew-actions.git
-git -C homebrew-actions checkout c035d14050bca1e2028a6368823797d36c9cdbc5
+git -C homebrew-actions checkout 5ff7e261e32542dde8902ef16483405c2bf4ca12
 TAP_REPO=OWNER/homebrew-tap SOURCE_REPO=OWNER/PRODUCT \
   bash homebrew-actions/scripts/setup-deploy-key.sh
 ```
