@@ -10,7 +10,7 @@ Dependabot updates. Package registration and updates happen from each product
 repository; you do not edit the tap to add a package.
 
 The included workflows and product examples are pinned to the full
-`releaseway/homebrew-actions v0.4.0` commit.
+`releaseway/homebrew-actions v0.4.1` commit.
 
 ## Check the new tap
 
@@ -55,7 +55,7 @@ jobs:
   homebrew:
     permissions:
       contents: read
-    uses: releaseway/homebrew-actions/.github/workflows/check.yml@5ff7e261e32542dde8902ef16483405c2bf4ca12 # v0.4.0
+    uses: releaseway/homebrew-actions/.github/workflows/check.yml@d3f1522212aca4702a32805159b0bd3e88561986 # v0.4.1
     with:
       tap-repository: OWNER/homebrew-tap
 ```
@@ -69,7 +69,7 @@ jobs:
     needs: release
     permissions:
       contents: read
-    uses: releaseway/homebrew-actions/.github/workflows/publish.yml@5ff7e261e32542dde8902ef16483405c2bf4ca12 # v0.4.0
+    uses: releaseway/homebrew-actions/.github/workflows/publish.yml@d3f1522212aca4702a32805159b0bd3e88561986 # v0.4.1
     with:
       tap-repository: OWNER/homebrew-tap
       commit: ${{ needs.release.outputs.commit }}
@@ -94,7 +94,7 @@ The setup helper can configure that pair without printing the private key:
 
 ```sh
 git clone https://github.com/releaseway/homebrew-actions.git
-git -C homebrew-actions checkout 5ff7e261e32542dde8902ef16483405c2bf4ca12
+git -C homebrew-actions checkout d3f1522212aca4702a32805159b0bd3e88561986
 TAP_REPO=OWNER/homebrew-tap SOURCE_REPO=OWNER/PRODUCT \
   bash homebrew-actions/scripts/setup-deploy-key.sh
 ```
