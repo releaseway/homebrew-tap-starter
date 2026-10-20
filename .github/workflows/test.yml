@@ -7,4 +7,4 @@ permissions:
   contents: read
 jobs:
   tap-check:
-    uses: releaseway/homebrew-actions/.github/workflows/tap-check.yml@d3f1522212aca4702a32805159b0bd3e88561986 # v0.4.1
+    uses: releaseway/homebrew-actions/.github/workflows/tap-check.yml@8fe42d36a7f93a3c399461efbe571fc695d4cdc6 # v0.4.3
