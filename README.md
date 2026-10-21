@@ -29,13 +29,16 @@ In your product repository, add `.github/homebrew/formula.yml`:
 name: example
 desc: Demonstrate command-line packaging
 license: MIT
+
 command_aliases:
   ex: example
 dependencies:
   build:
     - go
+
 install: |
   system "go", "build", *std_go_args, "./cmd/example"
+
 test: |
   system bin/"example", "--version"
   system bin/"ex", "--version"
@@ -66,6 +69,7 @@ jobs:
   homebrew:
     permissions:
       contents: read
+
     uses: releaseway/homebrew-actions/.github/workflows/check.yml@<homebrew-actions-sha>
     with:
       tap-repository: OWNER/homebrew-tap
@@ -78,13 +82,16 @@ job must expose the exact source `commit` and `version` as job outputs:
 jobs:
   homebrew:
     needs: release
+
     permissions:
       contents: read
+
     uses: releaseway/homebrew-actions/.github/workflows/publish.yml@<homebrew-actions-sha>
     with:
       tap-repository: OWNER/homebrew-tap
       commit: ${{ needs.release.outputs.commit }}
       version: ${{ needs.release.outputs.version }}
+
     secrets:
       tap_deploy_key: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
 ```
