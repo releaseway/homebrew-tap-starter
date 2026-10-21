@@ -9,8 +9,11 @@ This starter provides an empty tap, shared validation and deletion workflows, an
 Dependabot updates. Package registration and updates happen from each product
 repository; you do not edit the tap to add a package.
 
-The included workflows and product examples are pinned to the full
-`releaseway/homebrew-actions v0.4.3` commit.
+The included [check](.github/workflows/test.yml) and
+[deletion](.github/workflows/delete-formula.yml) workflows pin homebrew-actions by
+full commit SHA. For the product examples below, replace `<homebrew-actions-sha>`
+with a selected release's full SHA using
+[reference selection](https://github.com/releaseway/actions/blob/main/docs/action-references.md).
 
 ## Check the new tap
 
@@ -38,7 +41,7 @@ test: |
   system bin/"ex", "--version"
 ```
 
-`command_aliases` requires homebrew-actions v0.4.0 or newer. It maps an extra
+`command_aliases` maps an extra
 command name to an executable installed in `bin`; here both `example` and `ex`
 run the same program. These are executable names, separate from Formula names
 used by `brew install`. Remove any manual symlink for the same name when adopting
@@ -48,18 +51,13 @@ Adapt installation, dependencies and tests to your product. See
 [Homebrew automation](https://github.com/releaseway/homebrew-actions) for prebuilt
 GitHub Release assets and the complete workflow contract.
 
-Support boundaries for the pinned v0.4.3: source release validation runs on macOS arm64;
-prebuilt GitHub Release assets must provide both arm64 and x86_64 for each selected
-operating system. The Formula spec does not support Homebrew `revision` updates.
-Choose a supported distribution for your product and keep any additional native
-platform checks in your product workflow. See the automation's validation model
-before treating a spec check as cross-platform installation evidence.
-
-An unreleased homebrew-actions candidate adds packaging `revision`, source/spec
-commit separation and explicit platform sets, including single-architecture assets.
-See the [candidate configuration guide](https://github.com/releaseway/homebrew-actions/blob/main/docs/packaging-platforms.md).
-Keep the stable examples below until a separately approved Homebrew minor release
-is published; then update all literal workflow SHAs and version comments together.
+Read the automation's validation model at your selected ref before treating a
+spec check as native installation evidence. Without an explicit `platforms` list,
+source publication validates macOS arm64 only; prebuilt specs require both arm64
+and x86_64 for each declared operating system. For packaging revisions or explicit
+platform sets, choose a ref supporting the
+[packaging configuration](https://github.com/releaseway/homebrew-actions/blob/main/docs/packaging-platforms.md).
+Default-branch docs can describe inputs absent from a published release.
 
 Add this job to your product's pull-request workflow:
 
@@ -68,7 +66,7 @@ jobs:
   homebrew:
     permissions:
       contents: read
-    uses: releaseway/homebrew-actions/.github/workflows/check.yml@8fe42d36a7f93a3c399461efbe571fc695d4cdc6 # v0.4.3
+    uses: releaseway/homebrew-actions/.github/workflows/check.yml@<homebrew-actions-sha>
     with:
       tap-repository: OWNER/homebrew-tap
 ```
@@ -82,7 +80,7 @@ jobs:
     needs: release
     permissions:
       contents: read
-    uses: releaseway/homebrew-actions/.github/workflows/publish.yml@8fe42d36a7f93a3c399461efbe571fc695d4cdc6 # v0.4.3
+    uses: releaseway/homebrew-actions/.github/workflows/publish.yml@<homebrew-actions-sha>
     with:
       tap-repository: OWNER/homebrew-tap
       commit: ${{ needs.release.outputs.commit }}
@@ -103,11 +101,12 @@ is a dedicated SSH deploy key: add its public key to this tap with write access,
 and store its private key as `HOMEBREW_TAP_DEPLOY_KEY` in the product's Actions secrets.
 The organization must allow deploy keys.
 
-The setup helper can configure that pair without printing the private key:
+The setup helper can configure that pair without printing the private key. Set
+`HOMEBREW_ACTIONS_SHA` to the same reviewed automation SHA used in your workflows:
 
 ```sh
 git clone https://github.com/releaseway/homebrew-actions.git
-git -C homebrew-actions checkout 8fe42d36a7f93a3c399461efbe571fc695d4cdc6
+git -C homebrew-actions checkout --detach "$HOMEBREW_ACTIONS_SHA"
 TAP_REPO=OWNER/homebrew-tap SOURCE_REPO=OWNER/PRODUCT \
   bash homebrew-actions/scripts/setup-deploy-key.sh
 ```
