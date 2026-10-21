@@ -48,12 +48,18 @@ Adapt installation, dependencies and tests to your product. See
 [Homebrew automation](https://github.com/releaseway/homebrew-actions) for prebuilt
 GitHub Release assets and the complete workflow contract.
 
-Current support boundaries: source release validation runs on macOS arm64;
+Support boundaries for the pinned v0.4.3: source release validation runs on macOS arm64;
 prebuilt GitHub Release assets must provide both arm64 and x86_64 for each selected
 operating system. The Formula spec does not support Homebrew `revision` updates.
 Choose a supported distribution for your product and keep any additional native
 platform checks in your product workflow. See the automation's validation model
 before treating a spec check as cross-platform installation evidence.
+
+An unreleased homebrew-actions candidate adds packaging `revision`, source/spec
+commit separation and explicit platform sets, including single-architecture assets.
+See the [candidate configuration guide](https://github.com/releaseway/homebrew-actions/blob/main/docs/packaging-platforms.md).
+Keep the stable examples below until a separately approved Homebrew minor release
+is published; then update all literal workflow SHAs and version comments together.
 
 Add this job to your product's pull-request workflow:
 
